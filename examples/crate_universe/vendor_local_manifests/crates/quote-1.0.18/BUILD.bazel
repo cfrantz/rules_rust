@@ -77,11 +77,11 @@ rust_library(
         "noclippy",
         "norustfmt",
     ],
-    version = "1.0.17",
+    version = "1.0.18",
     deps = [
     ] + select_with_or({
         "//conditions:default": [
-            "//vendor_local_manifests/crates/proc-macro2-1.0.36:proc_macro2",
+            "//vendor_local_manifests/crates/proc-macro2-1.0.38:proc_macro2",
         ],
     }),
 )

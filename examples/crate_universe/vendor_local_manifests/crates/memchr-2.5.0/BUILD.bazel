@@ -24,11 +24,11 @@ load(
 package(default_visibility = ["//visibility:public"])
 
 # licenses([
-#     "TODO",  # MIT OR Apache-2.0
+#     "TODO",  # Unlicense/MIT
 # ])
 
 rust_library(
-    name = "syn",
+    name = "memchr",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -45,15 +45,8 @@ rust_library(
         ],
     }),
     crate_features = [
-        "clone-impls",
         "default",
-        "derive",
-        "full",
-        "parsing",
-        "printing",
-        "proc-macro",
-        "quote",
-        "visit-mut",
+        "std",
     ],
     crate_root = "src/lib.rs",
     data = select_with_or({
@@ -88,21 +81,18 @@ rust_library(
         "noclippy",
         "norustfmt",
     ],
-    version = "1.0.90",
+    version = "2.5.0",
     deps = [
     ] + select_with_or({
         "//conditions:default": [
-            "//vendor_local_manifests/crates/proc-macro2-1.0.36:proc_macro2",
-            "//vendor_local_manifests/crates/quote-1.0.17:quote",
-            "//vendor_local_manifests/crates/syn-1.0.90:build_script_build",
-            "//vendor_local_manifests/crates/unicode-xid-0.2.2:unicode_xid",
+            "//vendor_local_manifests/crates/memchr-2.5.0:build_script_build",
         ],
     }),
 )
 
 cargo_build_script(
     # See comment associated with alias. Do not change this name
-    name = "syn_build_script",
+    name = "memchr_build_script",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -121,15 +111,8 @@ cargo_build_script(
         ],
     }),
     crate_features = [
-        "clone-impls",
         "default",
-        "derive",
-        "full",
-        "parsing",
-        "printing",
-        "proc-macro",
-        "quote",
-        "visit-mut",
+        "std",
     ],
     crate_name = "build_script_build",
     crate_root = "build.rs",
@@ -169,7 +152,7 @@ cargo_build_script(
         "//conditions:default": [
         ],
     }),
-    version = "1.0.90",
+    version = "2.5.0",
     visibility = ["//visibility:private"],
     deps = [
     ] + select_with_or({
@@ -185,7 +168,7 @@ alias(
     # of `build_script_build` without losing out on having certain Cargo
     # environment variables set.
     name = "build_script_build",
-    actual = "syn_build_script",
+    actual = "memchr_build_script",
     tags = [
         "manual",
     ],

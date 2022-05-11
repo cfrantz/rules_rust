@@ -24,11 +24,11 @@ load(
 package(default_visibility = ["//visibility:public"])
 
 # licenses([
-#     "TODO",  # Apache-2.0/MIT
+#     "TODO",  # MIT OR Apache-2.0
 # ])
 
 rust_library(
-    name = "parking_lot_core",
+    name = "proc_macro2",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -45,6 +45,8 @@ rust_library(
         ],
     }),
     crate_features = [
+        "default",
+        "proc-macro",
     ],
     crate_root = "src/lib.rs",
     data = select_with_or({
@@ -79,70 +81,19 @@ rust_library(
         "noclippy",
         "norustfmt",
     ],
-    version = "0.8.5",
+    version = "1.0.38",
     deps = [
     ] + select_with_or({
-        # cfg(target_os = "redox")
-        #
-        # No supported platform triples for cfg: 'cfg(target_os = "redox")'
-        # Skipped dependencies: [{"id":"redox_syscall 0.2.13","target":"syscall"}]
-        #
-        # cfg(unix)
-        (
-            "@rules_rust//rust/platform:aarch64-apple-darwin",
-            "@rules_rust//rust/platform:aarch64-apple-ios",
-            "@rules_rust//rust/platform:aarch64-apple-ios-sim",
-            "@rules_rust//rust/platform:aarch64-linux-android",
-            "@rules_rust//rust/platform:aarch64-unknown-linux-gnu",
-            "@rules_rust//rust/platform:arm-unknown-linux-gnueabi",
-            "@rules_rust//rust/platform:armv7-unknown-linux-gnueabi",
-            "@rules_rust//rust/platform:i686-apple-darwin",
-            "@rules_rust//rust/platform:i686-linux-android",
-            "@rules_rust//rust/platform:i686-unknown-freebsd",
-            "@rules_rust//rust/platform:i686-unknown-linux-gnu",
-            "@rules_rust//rust/platform:powerpc-unknown-linux-gnu",
-            "@rules_rust//rust/platform:s390x-unknown-linux-gnu",
-            "@rules_rust//rust/platform:x86_64-apple-darwin",
-            "@rules_rust//rust/platform:x86_64-apple-ios",
-            "@rules_rust//rust/platform:x86_64-linux-android",
-            "@rules_rust//rust/platform:x86_64-unknown-freebsd",
-            "@rules_rust//rust/platform:x86_64-unknown-linux-gnu",
-        ): [
-            # Target Deps
-            "//vendor_local_manifests/crates/libc-0.2.125:libc",
-
-            # Common Deps
-            "//vendor_local_manifests/crates/cfg-if-1.0.0:cfg_if",
-            "//vendor_local_manifests/crates/instant-0.1.12:instant",
-            "//vendor_local_manifests/crates/parking_lot_core-0.8.5:build_script_build",
-            "//vendor_local_manifests/crates/smallvec-1.8.0:smallvec",
-        ],
-        # cfg(windows)
-        (
-            "@rules_rust//rust/platform:i686-pc-windows-msvc",
-            "@rules_rust//rust/platform:x86_64-pc-windows-msvc",
-        ): [
-            # Target Deps
-            "//vendor_local_manifests/crates/winapi-0.3.9:winapi",
-
-            # Common Deps
-            "//vendor_local_manifests/crates/cfg-if-1.0.0:cfg_if",
-            "//vendor_local_manifests/crates/instant-0.1.12:instant",
-            "//vendor_local_manifests/crates/parking_lot_core-0.8.5:build_script_build",
-            "//vendor_local_manifests/crates/smallvec-1.8.0:smallvec",
-        ],
         "//conditions:default": [
-            "//vendor_local_manifests/crates/cfg-if-1.0.0:cfg_if",
-            "//vendor_local_manifests/crates/instant-0.1.12:instant",
-            "//vendor_local_manifests/crates/parking_lot_core-0.8.5:build_script_build",
-            "//vendor_local_manifests/crates/smallvec-1.8.0:smallvec",
+            "//vendor_local_manifests/crates/proc-macro2-1.0.38:build_script_build",
+            "//vendor_local_manifests/crates/unicode-xid-0.2.3:unicode_xid",
         ],
     }),
 )
 
 cargo_build_script(
     # See comment associated with alias. Do not change this name
-    name = "parking_lot_core_build_script",
+    name = "proc-macro2_build_script",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -161,6 +112,8 @@ cargo_build_script(
         ],
     }),
     crate_features = [
+        "default",
+        "proc-macro",
     ],
     crate_name = "build_script_build",
     crate_root = "build.rs",
@@ -200,7 +153,7 @@ cargo_build_script(
         "//conditions:default": [
         ],
     }),
-    version = "0.8.5",
+    version = "1.0.38",
     visibility = ["//visibility:private"],
     deps = [
     ] + select_with_or({
@@ -216,7 +169,7 @@ alias(
     # of `build_script_build` without losing out on having certain Cargo
     # environment variables set.
     name = "build_script_build",
-    actual = "parking_lot_core_build_script",
+    actual = "proc-macro2_build_script",
     tags = [
         "manual",
     ],
