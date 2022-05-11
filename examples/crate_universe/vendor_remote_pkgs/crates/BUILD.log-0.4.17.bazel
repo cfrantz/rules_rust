@@ -28,7 +28,7 @@ package(default_visibility = ["//visibility:public"])
 # ])
 
 rust_library(
-    name = "serde_json",
+    name = "log",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -45,8 +45,6 @@ rust_library(
         ],
     }),
     crate_features = [
-        "default",
-        "raw_value",
         "std",
     ],
     crate_root = "src/lib.rs",
@@ -54,7 +52,7 @@ rust_library(
         "//conditions:default": [
         ],
     }),
-    edition = "2018",
+    edition = "2015",
     proc_macro_deps = [
     ] + select_with_or({
         "//conditions:default": [
@@ -82,21 +80,19 @@ rust_library(
         "noclippy",
         "norustfmt",
     ],
-    version = "1.0.79",
+    version = "0.4.17",
     deps = [
     ] + select_with_or({
         "//conditions:default": [
-            "@crates_vendor_pkgs__itoa-1.0.1//:itoa",
-            "@crates_vendor_pkgs__ryu-1.0.9//:ryu",
-            "@crates_vendor_pkgs__serde-1.0.136//:serde",
-            "@crates_vendor_pkgs__serde_json-1.0.79//:build_script_build",
+            "@crates_vendor_pkgs__cfg-if-1.0.0//:cfg_if",
+            "@crates_vendor_pkgs__log-0.4.17//:build_script_build",
         ],
     }),
 )
 
 cargo_build_script(
     # See comment associated with alias. Do not change this name
-    name = "serde_json_build_script",
+    name = "log_build_script",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -115,8 +111,6 @@ cargo_build_script(
         ],
     }),
     crate_features = [
-        "default",
-        "raw_value",
         "std",
     ],
     crate_name = "build_script_build",
@@ -125,7 +119,7 @@ cargo_build_script(
         "//conditions:default": [
         ],
     }),
-    edition = "2018",
+    edition = "2015",
     proc_macro_deps = [
     ] + select_with_or({
         "//conditions:default": [
@@ -157,7 +151,7 @@ cargo_build_script(
         "//conditions:default": [
         ],
     }),
-    version = "1.0.79",
+    version = "0.4.17",
     visibility = ["//visibility:private"],
     deps = [
     ] + select_with_or({
@@ -173,7 +167,7 @@ alias(
     # of `build_script_build` without losing out on having certain Cargo
     # environment variables set.
     name = "build_script_build",
-    actual = "serde_json_build_script",
+    actual = "log_build_script",
     tags = [
         "manual",
     ],

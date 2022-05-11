@@ -24,11 +24,11 @@ load(
 package(default_visibility = ["//visibility:public"])
 
 # licenses([
-#     "TODO",  # MIT/Apache-2.0
+#     "TODO",  # Apache-2.0/MIT
 # ])
 
 rust_library(
-    name = "httparse",
+    name = "indexmap",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -45,7 +45,6 @@ rust_library(
         ],
     }),
     crate_features = [
-        "default",
         "std",
     ],
     crate_root = "src/lib.rs",
@@ -53,7 +52,7 @@ rust_library(
         "//conditions:default": [
         ],
     }),
-    edition = "2015",
+    edition = "2018",
     proc_macro_deps = [
     ] + select_with_or({
         "//conditions:default": [
@@ -81,18 +80,19 @@ rust_library(
         "noclippy",
         "norustfmt",
     ],
-    version = "1.6.0",
+    version = "1.8.1",
     deps = [
     ] + select_with_or({
         "//conditions:default": [
-            "@crates_vendor_pkgs__httparse-1.6.0//:build_script_build",
+            "@crates_vendor_pkgs__hashbrown-0.11.2//:hashbrown",
+            "@crates_vendor_pkgs__indexmap-1.8.1//:build_script_build",
         ],
     }),
 )
 
 cargo_build_script(
     # See comment associated with alias. Do not change this name
-    name = "httparse_build_script",
+    name = "indexmap_build_script",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -111,7 +111,6 @@ cargo_build_script(
         ],
     }),
     crate_features = [
-        "default",
         "std",
     ],
     crate_name = "build_script_build",
@@ -120,7 +119,7 @@ cargo_build_script(
         "//conditions:default": [
         ],
     }),
-    edition = "2015",
+    edition = "2018",
     proc_macro_deps = [
     ] + select_with_or({
         "//conditions:default": [
@@ -152,11 +151,12 @@ cargo_build_script(
         "//conditions:default": [
         ],
     }),
-    version = "1.6.0",
+    version = "1.8.1",
     visibility = ["//visibility:private"],
     deps = [
     ] + select_with_or({
         "//conditions:default": [
+            "@crates_vendor_pkgs__autocfg-1.1.0//:autocfg",
         ],
     }),
 )
@@ -168,7 +168,7 @@ alias(
     # of `build_script_build` without losing out on having certain Cargo
     # environment variables set.
     name = "build_script_build",
-    actual = "httparse_build_script",
+    actual = "indexmap_build_script",
     tags = [
         "manual",
     ],

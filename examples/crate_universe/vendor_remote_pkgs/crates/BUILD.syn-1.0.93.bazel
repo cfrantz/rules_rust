@@ -28,7 +28,7 @@ package(default_visibility = ["//visibility:public"])
 # ])
 
 rust_library(
-    name = "log",
+    name = "syn",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -45,14 +45,24 @@ rust_library(
         ],
     }),
     crate_features = [
-        "std",
+        "clone-impls",
+        "default",
+        "derive",
+        "extra-traits",
+        "full",
+        "parsing",
+        "printing",
+        "proc-macro",
+        "quote",
+        "visit",
+        "visit-mut",
     ],
     crate_root = "src/lib.rs",
     data = select_with_or({
         "//conditions:default": [
         ],
     }),
-    edition = "2015",
+    edition = "2018",
     proc_macro_deps = [
     ] + select_with_or({
         "//conditions:default": [
@@ -80,19 +90,21 @@ rust_library(
         "noclippy",
         "norustfmt",
     ],
-    version = "0.4.16",
+    version = "1.0.93",
     deps = [
     ] + select_with_or({
         "//conditions:default": [
-            "@crates_vendor_pkgs__cfg-if-1.0.0//:cfg_if",
-            "@crates_vendor_pkgs__log-0.4.16//:build_script_build",
+            "@crates_vendor_pkgs__proc-macro2-1.0.38//:proc_macro2",
+            "@crates_vendor_pkgs__quote-1.0.18//:quote",
+            "@crates_vendor_pkgs__syn-1.0.93//:build_script_build",
+            "@crates_vendor_pkgs__unicode-xid-0.2.3//:unicode_xid",
         ],
     }),
 )
 
 cargo_build_script(
     # See comment associated with alias. Do not change this name
-    name = "log_build_script",
+    name = "syn_build_script",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -111,7 +123,17 @@ cargo_build_script(
         ],
     }),
     crate_features = [
-        "std",
+        "clone-impls",
+        "default",
+        "derive",
+        "extra-traits",
+        "full",
+        "parsing",
+        "printing",
+        "proc-macro",
+        "quote",
+        "visit",
+        "visit-mut",
     ],
     crate_name = "build_script_build",
     crate_root = "build.rs",
@@ -119,7 +141,7 @@ cargo_build_script(
         "//conditions:default": [
         ],
     }),
-    edition = "2015",
+    edition = "2018",
     proc_macro_deps = [
     ] + select_with_or({
         "//conditions:default": [
@@ -151,7 +173,7 @@ cargo_build_script(
         "//conditions:default": [
         ],
     }),
-    version = "0.4.16",
+    version = "1.0.93",
     visibility = ["//visibility:private"],
     deps = [
     ] + select_with_or({
@@ -167,7 +189,7 @@ alias(
     # of `build_script_build` without losing out on having certain Cargo
     # environment variables set.
     name = "build_script_build",
-    actual = "log_build_script",
+    actual = "syn_build_script",
     tags = [
         "manual",
     ],

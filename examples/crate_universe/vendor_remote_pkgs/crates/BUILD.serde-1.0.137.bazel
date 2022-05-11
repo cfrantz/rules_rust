@@ -24,11 +24,11 @@ load(
 package(default_visibility = ["//visibility:public"])
 
 # licenses([
-#     "TODO",  # Unlicense/MIT
+#     "TODO",  # MIT OR Apache-2.0
 # ])
 
 rust_library(
-    name = "memchr",
+    name = "serde",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -53,7 +53,7 @@ rust_library(
         "//conditions:default": [
         ],
     }),
-    edition = "2018",
+    edition = "2015",
     proc_macro_deps = [
     ] + select_with_or({
         "//conditions:default": [
@@ -81,18 +81,18 @@ rust_library(
         "noclippy",
         "norustfmt",
     ],
-    version = "2.4.1",
+    version = "1.0.137",
     deps = [
     ] + select_with_or({
         "//conditions:default": [
-            "@crates_vendor_pkgs__memchr-2.4.1//:build_script_build",
+            "@crates_vendor_pkgs__serde-1.0.137//:build_script_build",
         ],
     }),
 )
 
 cargo_build_script(
     # See comment associated with alias. Do not change this name
-    name = "memchr_build_script",
+    name = "serde_build_script",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -120,7 +120,7 @@ cargo_build_script(
         "//conditions:default": [
         ],
     }),
-    edition = "2018",
+    edition = "2015",
     proc_macro_deps = [
     ] + select_with_or({
         "//conditions:default": [
@@ -152,7 +152,7 @@ cargo_build_script(
         "//conditions:default": [
         ],
     }),
-    version = "2.4.1",
+    version = "1.0.137",
     visibility = ["//visibility:private"],
     deps = [
     ] + select_with_or({
@@ -168,7 +168,7 @@ alias(
     # of `build_script_build` without losing out on having certain Cargo
     # environment variables set.
     name = "build_script_build",
-    actual = "memchr_build_script",
+    actual = "serde_build_script",
     tags = [
         "manual",
     ],

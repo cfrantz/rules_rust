@@ -14,7 +14,7 @@ load(
 load("@rules_rust//crate_universe/private:selects.bzl", "select_with_or")
 load(
     "@rules_rust//rust:defs.bzl",
-    "rust_library",
+    "rust_proc_macro",
 )
 
 package(default_visibility = ["//visibility:public"])
@@ -23,8 +23,8 @@ package(default_visibility = ["//visibility:public"])
 #     "TODO",  # MIT
 # ])
 
-rust_library(
-    name = "tracing",
+rust_proc_macro(
+    name = "tracing_attributes",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -41,11 +41,6 @@ rust_library(
         ],
     }),
     crate_features = [
-        "attributes",
-        "default",
-        "log",
-        "std",
-        "tracing-attributes",
     ],
     crate_root = "src/lib.rs",
     data = select_with_or({
@@ -56,7 +51,6 @@ rust_library(
     proc_macro_deps = [
     ] + select_with_or({
         "//conditions:default": [
-            "@crates_vendor_pkgs__tracing-attributes-0.1.20//:tracing_attributes",
         ],
     }),
     rustc_env = {
@@ -81,14 +75,13 @@ rust_library(
         "noclippy",
         "norustfmt",
     ],
-    version = "0.1.32",
+    version = "0.1.21",
     deps = [
     ] + select_with_or({
         "//conditions:default": [
-            "@crates_vendor_pkgs__cfg-if-1.0.0//:cfg_if",
-            "@crates_vendor_pkgs__log-0.4.16//:log",
-            "@crates_vendor_pkgs__pin-project-lite-0.2.8//:pin_project_lite",
-            "@crates_vendor_pkgs__tracing-core-0.1.23//:tracing_core",
+            "@crates_vendor_pkgs__proc-macro2-1.0.38//:proc_macro2",
+            "@crates_vendor_pkgs__quote-1.0.18//:quote",
+            "@crates_vendor_pkgs__syn-1.0.93//:syn",
         ],
     }),
 )

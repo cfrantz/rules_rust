@@ -28,7 +28,7 @@ package(default_visibility = ["//visibility:public"])
 # ])
 
 rust_library(
-    name = "libc",
+    name = "lock_api",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -45,15 +45,13 @@ rust_library(
         ],
     }),
     crate_features = [
-        "default",
-        "std",
     ],
     crate_root = "src/lib.rs",
     data = select_with_or({
         "//conditions:default": [
         ],
     }),
-    edition = "2015",
+    edition = "2018",
     proc_macro_deps = [
     ] + select_with_or({
         "//conditions:default": [
@@ -81,18 +79,19 @@ rust_library(
         "noclippy",
         "norustfmt",
     ],
-    version = "0.2.121",
+    version = "0.4.7",
     deps = [
     ] + select_with_or({
         "//conditions:default": [
-            "@crates_vendor_pkgs__libc-0.2.121//:build_script_build",
+            "@crates_vendor_pkgs__lock_api-0.4.7//:build_script_build",
+            "@crates_vendor_pkgs__scopeguard-1.1.0//:scopeguard",
         ],
     }),
 )
 
 cargo_build_script(
     # See comment associated with alias. Do not change this name
-    name = "libc_build_script",
+    name = "lock_api_build_script",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -111,8 +110,6 @@ cargo_build_script(
         ],
     }),
     crate_features = [
-        "default",
-        "std",
     ],
     crate_name = "build_script_build",
     crate_root = "build.rs",
@@ -120,7 +117,7 @@ cargo_build_script(
         "//conditions:default": [
         ],
     }),
-    edition = "2015",
+    edition = "2018",
     proc_macro_deps = [
     ] + select_with_or({
         "//conditions:default": [
@@ -152,11 +149,12 @@ cargo_build_script(
         "//conditions:default": [
         ],
     }),
-    version = "0.2.121",
+    version = "0.4.7",
     visibility = ["//visibility:private"],
     deps = [
     ] + select_with_or({
         "//conditions:default": [
+            "@crates_vendor_pkgs__autocfg-1.1.0//:autocfg",
         ],
     }),
 )
@@ -168,7 +166,7 @@ alias(
     # of `build_script_build` without losing out on having certain Cargo
     # environment variables set.
     name = "build_script_build",
-    actual = "libc_build_script",
+    actual = "lock_api_build_script",
     tags = [
         "manual",
     ],

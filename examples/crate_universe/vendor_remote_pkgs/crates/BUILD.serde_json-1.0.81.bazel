@@ -28,7 +28,7 @@ package(default_visibility = ["//visibility:public"])
 # ])
 
 rust_library(
-    name = "proc_macro2",
+    name = "serde_json",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -46,7 +46,8 @@ rust_library(
     }),
     crate_features = [
         "default",
-        "proc-macro",
+        "raw_value",
+        "std",
     ],
     crate_root = "src/lib.rs",
     data = select_with_or({
@@ -81,19 +82,21 @@ rust_library(
         "noclippy",
         "norustfmt",
     ],
-    version = "1.0.36",
+    version = "1.0.81",
     deps = [
     ] + select_with_or({
         "//conditions:default": [
-            "@crates_vendor_pkgs__proc-macro2-1.0.36//:build_script_build",
-            "@crates_vendor_pkgs__unicode-xid-0.2.2//:unicode_xid",
+            "@crates_vendor_pkgs__itoa-1.0.1//:itoa",
+            "@crates_vendor_pkgs__ryu-1.0.9//:ryu",
+            "@crates_vendor_pkgs__serde-1.0.137//:serde",
+            "@crates_vendor_pkgs__serde_json-1.0.81//:build_script_build",
         ],
     }),
 )
 
 cargo_build_script(
     # See comment associated with alias. Do not change this name
-    name = "proc-macro2_build_script",
+    name = "serde_json_build_script",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -113,7 +116,8 @@ cargo_build_script(
     }),
     crate_features = [
         "default",
-        "proc-macro",
+        "raw_value",
+        "std",
     ],
     crate_name = "build_script_build",
     crate_root = "build.rs",
@@ -153,7 +157,7 @@ cargo_build_script(
         "//conditions:default": [
         ],
     }),
-    version = "1.0.36",
+    version = "1.0.81",
     visibility = ["//visibility:private"],
     deps = [
     ] + select_with_or({
@@ -169,7 +173,7 @@ alias(
     # of `build_script_build` without losing out on having certain Cargo
     # environment variables set.
     name = "build_script_build",
-    actual = "proc-macro2_build_script",
+    actual = "serde_json_build_script",
     tags = [
         "manual",
     ],

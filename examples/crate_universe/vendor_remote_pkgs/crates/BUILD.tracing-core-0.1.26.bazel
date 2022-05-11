@@ -79,7 +79,7 @@ rust_library(
         "noclippy",
         "norustfmt",
     ],
-    version = "0.1.23",
+    version = "0.1.26",
     deps = [
     ] + select_with_or({
         # cfg(tracing_unstable)

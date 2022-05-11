@@ -24,11 +24,11 @@ load(
 package(default_visibility = ["//visibility:public"])
 
 # licenses([
-#     "TODO",  # MIT OR Apache-2.0
+#     "TODO",  # MIT/Apache-2.0
 # ])
 
 rust_library(
-    name = "futures_util",
+    name = "httparse",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -45,14 +45,15 @@ rust_library(
         ],
     }),
     crate_features = [
-        "alloc",
+        "default",
+        "std",
     ],
     crate_root = "src/lib.rs",
     data = select_with_or({
         "//conditions:default": [
         ],
     }),
-    edition = "2018",
+    edition = "2015",
     proc_macro_deps = [
     ] + select_with_or({
         "//conditions:default": [
@@ -80,22 +81,18 @@ rust_library(
         "noclippy",
         "norustfmt",
     ],
-    version = "0.3.21",
+    version = "1.7.1",
     deps = [
     ] + select_with_or({
         "//conditions:default": [
-            "@crates_vendor_pkgs__futures-core-0.3.21//:futures_core",
-            "@crates_vendor_pkgs__futures-task-0.3.21//:futures_task",
-            "@crates_vendor_pkgs__futures-util-0.3.21//:build_script_build",
-            "@crates_vendor_pkgs__pin-project-lite-0.2.9//:pin_project_lite",
-            "@crates_vendor_pkgs__pin-utils-0.1.0//:pin_utils",
+            "@crates_vendor_pkgs__httparse-1.7.1//:build_script_build",
         ],
     }),
 )
 
 cargo_build_script(
     # See comment associated with alias. Do not change this name
-    name = "futures-util_build_script",
+    name = "httparse_build_script",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -114,7 +111,8 @@ cargo_build_script(
         ],
     }),
     crate_features = [
-        "alloc",
+        "default",
+        "std",
     ],
     crate_name = "build_script_build",
     crate_root = "build.rs",
@@ -122,7 +120,7 @@ cargo_build_script(
         "//conditions:default": [
         ],
     }),
-    edition = "2018",
+    edition = "2015",
     proc_macro_deps = [
     ] + select_with_or({
         "//conditions:default": [
@@ -154,7 +152,7 @@ cargo_build_script(
         "//conditions:default": [
         ],
     }),
-    version = "0.3.21",
+    version = "1.7.1",
     visibility = ["//visibility:private"],
     deps = [
     ] + select_with_or({
@@ -170,7 +168,7 @@ alias(
     # of `build_script_build` without losing out on having certain Cargo
     # environment variables set.
     name = "build_script_build",
-    actual = "futures-util_build_script",
+    actual = "httparse_build_script",
     tags = [
         "manual",
     ],
