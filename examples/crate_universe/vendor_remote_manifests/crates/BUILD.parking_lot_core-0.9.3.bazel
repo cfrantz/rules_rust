@@ -24,11 +24,11 @@ load(
 package(default_visibility = ["//visibility:public"])
 
 # licenses([
-#     "TODO",  # Apache-2.0 OR MIT
+#     "TODO",  # MIT OR Apache-2.0
 # ])
 
 rust_library(
-    name = "ntapi",
+    name = "parking_lot_core",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -45,8 +45,6 @@ rust_library(
         ],
     }),
     crate_features = [
-        "default",
-        "user",
     ],
     crate_root = "src/lib.rs",
     data = select_with_or({
@@ -81,19 +79,67 @@ rust_library(
         "noclippy",
         "norustfmt",
     ],
-    version = "0.3.7",
+    version = "0.9.3",
     deps = [
     ] + select_with_or({
+        # cfg(target_os = "redox")
+        #
+        # No supported platform triples for cfg: 'cfg(target_os = "redox")'
+        # Skipped dependencies: [{"id":"redox_syscall 0.2.13","target":"syscall"}]
+        #
+        # cfg(unix)
+        (
+            "@rules_rust//rust/platform:aarch64-apple-darwin",
+            "@rules_rust//rust/platform:aarch64-apple-ios",
+            "@rules_rust//rust/platform:aarch64-apple-ios-sim",
+            "@rules_rust//rust/platform:aarch64-linux-android",
+            "@rules_rust//rust/platform:aarch64-unknown-linux-gnu",
+            "@rules_rust//rust/platform:arm-unknown-linux-gnueabi",
+            "@rules_rust//rust/platform:armv7-unknown-linux-gnueabi",
+            "@rules_rust//rust/platform:i686-apple-darwin",
+            "@rules_rust//rust/platform:i686-linux-android",
+            "@rules_rust//rust/platform:i686-unknown-freebsd",
+            "@rules_rust//rust/platform:i686-unknown-linux-gnu",
+            "@rules_rust//rust/platform:powerpc-unknown-linux-gnu",
+            "@rules_rust//rust/platform:s390x-unknown-linux-gnu",
+            "@rules_rust//rust/platform:x86_64-apple-darwin",
+            "@rules_rust//rust/platform:x86_64-apple-ios",
+            "@rules_rust//rust/platform:x86_64-linux-android",
+            "@rules_rust//rust/platform:x86_64-unknown-freebsd",
+            "@rules_rust//rust/platform:x86_64-unknown-linux-gnu",
+        ): [
+            # Target Deps
+            "@crates_vendor_manifests__libc-0.2.125//:libc",
+
+            # Common Deps
+            "@crates_vendor_manifests__cfg-if-1.0.0//:cfg_if",
+            "@crates_vendor_manifests__parking_lot_core-0.9.3//:build_script_build",
+            "@crates_vendor_manifests__smallvec-1.8.0//:smallvec",
+        ],
+        # cfg(windows)
+        (
+            "@rules_rust//rust/platform:i686-pc-windows-msvc",
+            "@rules_rust//rust/platform:x86_64-pc-windows-msvc",
+        ): [
+            # Target Deps
+            "@crates_vendor_manifests__windows-sys-0.36.1//:windows_sys",
+
+            # Common Deps
+            "@crates_vendor_manifests__cfg-if-1.0.0//:cfg_if",
+            "@crates_vendor_manifests__parking_lot_core-0.9.3//:build_script_build",
+            "@crates_vendor_manifests__smallvec-1.8.0//:smallvec",
+        ],
         "//conditions:default": [
-            "@crates_vendor_manifests__ntapi-0.3.7//:build_script_build",
-            "@crates_vendor_manifests__winapi-0.3.9//:winapi",
+            "@crates_vendor_manifests__cfg-if-1.0.0//:cfg_if",
+            "@crates_vendor_manifests__parking_lot_core-0.9.3//:build_script_build",
+            "@crates_vendor_manifests__smallvec-1.8.0//:smallvec",
         ],
     }),
 )
 
 cargo_build_script(
     # See comment associated with alias. Do not change this name
-    name = "ntapi_build_script",
+    name = "parking_lot_core_build_script",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -112,8 +158,6 @@ cargo_build_script(
         ],
     }),
     crate_features = [
-        "default",
-        "user",
     ],
     crate_name = "build_script_build",
     crate_root = "build.rs",
@@ -153,7 +197,7 @@ cargo_build_script(
         "//conditions:default": [
         ],
     }),
-    version = "0.3.7",
+    version = "0.9.3",
     visibility = ["//visibility:private"],
     deps = [
     ] + select_with_or({
@@ -169,7 +213,7 @@ alias(
     # of `build_script_build` without losing out on having certain Cargo
     # environment variables set.
     name = "build_script_build",
-    actual = "ntapi_build_script",
+    actual = "parking_lot_core_build_script",
     tags = [
         "manual",
     ],

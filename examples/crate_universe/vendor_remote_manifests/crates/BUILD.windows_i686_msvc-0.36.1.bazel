@@ -28,7 +28,7 @@ package(default_visibility = ["//visibility:public"])
 # ])
 
 rust_library(
-    name = "windows_i686_gnu",
+    name = "windows_i686_msvc",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -79,18 +79,18 @@ rust_library(
         "noclippy",
         "norustfmt",
     ],
-    version = "0.32.0",
+    version = "0.36.1",
     deps = [
     ] + select_with_or({
         "//conditions:default": [
-            "@crates_vendor_manifests__windows_i686_gnu-0.32.0//:build_script_build",
+            "@crates_vendor_manifests__windows_i686_msvc-0.36.1//:build_script_build",
         ],
     }),
 )
 
 cargo_build_script(
     # See comment associated with alias. Do not change this name
-    name = "windows_i686_gnu_build_script",
+    name = "windows_i686_msvc_build_script",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -148,7 +148,7 @@ cargo_build_script(
         "//conditions:default": [
         ],
     }),
-    version = "0.32.0",
+    version = "0.36.1",
     visibility = ["//visibility:private"],
     deps = [
     ] + select_with_or({
@@ -164,7 +164,7 @@ alias(
     # of `build_script_build` without losing out on having certain Cargo
     # environment variables set.
     name = "build_script_build",
-    actual = "windows_i686_gnu_build_script",
+    actual = "windows_i686_msvc_build_script",
     tags = [
         "manual",
     ],

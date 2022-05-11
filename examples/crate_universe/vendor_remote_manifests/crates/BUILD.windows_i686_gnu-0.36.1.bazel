@@ -28,7 +28,7 @@ package(default_visibility = ["//visibility:public"])
 # ])
 
 rust_library(
-    name = "syn",
+    name = "windows_i686_gnu",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -45,15 +45,6 @@ rust_library(
         ],
     }),
     crate_features = [
-        "clone-impls",
-        "default",
-        "derive",
-        "full",
-        "parsing",
-        "printing",
-        "proc-macro",
-        "quote",
-        "visit-mut",
     ],
     crate_root = "src/lib.rs",
     data = select_with_or({
@@ -88,21 +79,18 @@ rust_library(
         "noclippy",
         "norustfmt",
     ],
-    version = "1.0.90",
+    version = "0.36.1",
     deps = [
     ] + select_with_or({
         "//conditions:default": [
-            "@crates_vendor_manifests__proc-macro2-1.0.36//:proc_macro2",
-            "@crates_vendor_manifests__quote-1.0.17//:quote",
-            "@crates_vendor_manifests__syn-1.0.90//:build_script_build",
-            "@crates_vendor_manifests__unicode-xid-0.2.2//:unicode_xid",
+            "@crates_vendor_manifests__windows_i686_gnu-0.36.1//:build_script_build",
         ],
     }),
 )
 
 cargo_build_script(
     # See comment associated with alias. Do not change this name
-    name = "syn_build_script",
+    name = "windows_i686_gnu_build_script",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -121,15 +109,6 @@ cargo_build_script(
         ],
     }),
     crate_features = [
-        "clone-impls",
-        "default",
-        "derive",
-        "full",
-        "parsing",
-        "printing",
-        "proc-macro",
-        "quote",
-        "visit-mut",
     ],
     crate_name = "build_script_build",
     crate_root = "build.rs",
@@ -169,7 +148,7 @@ cargo_build_script(
         "//conditions:default": [
         ],
     }),
-    version = "1.0.90",
+    version = "0.36.1",
     visibility = ["//visibility:private"],
     deps = [
     ] + select_with_or({
@@ -185,7 +164,7 @@ alias(
     # of `build_script_build` without losing out on having certain Cargo
     # environment variables set.
     name = "build_script_build",
-    actual = "syn_build_script",
+    actual = "windows_i686_gnu_build_script",
     tags = [
         "manual",
     ],

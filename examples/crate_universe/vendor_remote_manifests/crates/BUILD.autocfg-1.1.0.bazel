@@ -20,11 +20,11 @@ load(
 package(default_visibility = ["//visibility:public"])
 
 # licenses([
-#     "TODO",  # Apache-2.0/MIT
+#     "TODO",  # Apache-2.0 OR MIT
 # ])
 
 rust_library(
-    name = "lock_api",
+    name = "autocfg",
     srcs = glob(
         include = [
             "**/*.rs",
@@ -47,7 +47,7 @@ rust_library(
         "//conditions:default": [
         ],
     }),
-    edition = "2018",
+    edition = "2015",
     proc_macro_deps = [
     ] + select_with_or({
         "//conditions:default": [
@@ -75,11 +75,10 @@ rust_library(
         "noclippy",
         "norustfmt",
     ],
-    version = "0.4.6",
+    version = "1.1.0",
     deps = [
     ] + select_with_or({
         "//conditions:default": [
-            "@crates_vendor_manifests__scopeguard-1.1.0//:scopeguard",
         ],
     }),
 )
